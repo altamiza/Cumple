@@ -4,23 +4,45 @@
   <title>Feliz Cumple Camila 🎉</title>
   <style>
     body {
-      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4); /* Degradado de fondo */
+      overflow: hidden; /* Oculta cualquier elemento que se salga de la pantalla para evitar barras de desplazamiento */
+      font-family: Arial, sans-serif;
       text-align: center;
-      font-family: Arial;
       color: white;
-      padding: 20px;
+      min-height: 100vh; /* Asegura que el cuerpo ocupe toda la altura de la ventana */
+      display: flex; /* Usa flexbox para centrar el contenido verticalmente */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative; /* Necesario para posicionar elementos absolutos dentro del body */
     }
+
     h1 {
       font-size: 45px;
-      margin-top: 50px;
-      animation: aparecer 2s ease;
+      margin-top: 0; /* Ajustado para el centrado con flexbox */
+      opacity: 0;
+      animation: fadeIn 2s forwards, pulse 1.5s infinite alternate 11s; /* Animación de entrada y un pulso sutil */
+      position: relative;
+      z-index: 2; /* Asegura que el título esté por encima de las animaciones de fondo */
     }
+
     p {
       font-size: 20px;
       max-width: 600px;
-      margin: 20px auto;
-      animation: aparecer 3s ease;
+      margin: 15px auto; /* Margen ajustado */
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+      position: relative;
+      z-index: 2; /* Asegura que los párrafos estén por encima */
     }
+
+    p:nth-of-type(1) { animation-delay: 2s; }
+    p:nth-of-type(2) { animation-delay: 4s; }
+    p:nth-of-type(3) { animation-delay: 6s; }
+    p:nth-of-type(4) { animation-delay: 8s; }
+
     button {
       margin-top: 30px;
       padding: 12px 25px;
@@ -30,16 +52,132 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+      animation-delay: 10s;
+      transition: all 0.3s ease; /* Transición suave para el efecto hover */
+      position: relative;
+      z-index: 2; /* Asegura que el botón esté por encima */
     }
+
     button:hover {
       background: #ff6f91;
       color: white;
+      transform: translateY(-3px); /* Pequeño efecto de levantamiento al pasar el ratón */
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Sombra para dar profundidad */
     }
-    @keyframes aparecer {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.05); /* Efecto de pulso ligero */
+      }
+    }
+
+    /* Estilos para los Corazones */
+    .heart {
+      position: absolute;
+      bottom: -50px; /* Empiezan desde abajo */
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      z-index: 1; /* Flotan por debajo del contenido principal */
+      pointer-events: none; /* Ignora clics en los corazones */
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg); /* Ascienden y rotan */
+        opacity: 0;
+      }
+    }
+
+    /* Estilos para el Confeti */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: var(--color); /* El color se define con una variable CSS */
+      bottom: -10px; /* Empiezan desde abajo */
+      animation: fall 5s linear infinite;
+      border-radius: 50%; /* Por defecto son círculos */
+      opacity: 0;
+      transform: rotate(var(--rotation)) scale(var(--scale)); /* Rotación y escala aleatoria */
+      z-index: 0; /* Capa más baja */
+      pointer-events: none;
+    }
+
+    .confetti.square {
+      border-radius: 0; /* Algunos serán cuadrados */
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) translateX(0) rotate(var(--initial-rotation, 0deg));
+        opacity: 0;
+      }
+      10% {
+        opacity: 1; /* Aparecen de repente */
+      }
+      100% {
+        transform: translateY(105vh) translateX(var(--drift, 0px)) rotate(var(--final-rotation, 720deg)); /* Caen y se mueven lateralmente */
+        opacity: 0;
+      }
+    }
+
+    /* Estilos para los Globos */
+    .balloon {
+      position: absolute;
+      bottom: -150px; /* Empiezan más abajo para un efecto de ascenso */
+      width: 80px;
+      height: 100px;
+      background-color: var(--balloon-color); /* El color se define con una variable CSS */
+      border-radius: 50%;
+      transform-origin: bottom center;
+      animation: ascend 10s linear infinite, sway 4s ease-in-out infinite alternate; /* Ascienden y se balancean */
+      z-index: 1; /* Nivel intermedio */
+      pointer-events: none;
+      box-shadow: inset -10px -10px 0 rgba(0,0,0,0.1); /* Sombra para dar volumen */
+    }
+
+    .balloon::before { /* Hilo del globo */
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: 40px;
+      background-color: #ccc;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes ascend {
+      0% {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh); /* Ascienden fuera de la vista */
+        opacity: 0;
+      }
+    }
+
+    @keyframes sway {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(20px); } /* Pequeño movimiento lateral */
+    }
+
   </style>
 </head>
 <body>
@@ -70,6 +208,67 @@
     function mostrarMensaje() {
       alert("Y sí… tenía que hacer algo diferente para ti 💖");
     }
+
+    // Colores para el confeti
+    const confettiColors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+    // Colores para los globos
+    const balloonColors = ['#FFD700', '#FF6347', '#6A5ACD', '#3CB371', '#FF4500', '#DA70D6', '#00BFFF']; /* Oro, Tomate, Azul Pizarra, Verde Mar, Naranja Rojo, Orquídea, Azul Cielo */
+
+    // Crear corazones (tu función, con pequeñas mejoras de z-index y rotación en CSS)
+    function crearCorazon() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw"; /* Posición horizontal aleatoria */
+      heart.style.fontSize = Math.random() * 20 + 10 + "px"; /* Tamaño aleatorio */
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000); /* Duración de la animación */
+    }
+
+    setInterval(crearCorazon, 500); /* Un corazón cada 0.5 segundos */
+
+    // Crear confeti
+    function crearConfeti() {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.setProperty('--color', confettiColors[Math.floor(Math.random() * confettiColors.length)]); /* Color aleatorio */
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.animationDelay = Math.random() * -5 + "s"; /* Para que empiecen a caer en diferentes momentos */
+      confetti.style.setProperty('--drift', (Math.random() - 0.5) * 100 + "px"); /* Movimiento lateral aleatorio */
+      confetti.style.setProperty('--initial-rotation', Math.random() * 360 + "deg"); /* Rotación inicial */
+      confetti.style.setProperty('--final-rotation', Math.random() * 720 + "deg"); /* Rotación final */
+      confetti.style.setProperty('--scale', Math.random() * 0.8 + 0.5); /* Tamaño aleatorio */
+      if (Math.random() > 0.5) confetti.classList.add('square'); /* 50% de probabilidad de ser cuadrado */
+      document.body.appendChild(confetti);
+
+      setTimeout(() => {
+        confetti.remove();
+      }, 5000);
+    }
+
+    setInterval(crearConfeti, 100); /* Mucho confeti, uno cada 0.1 segundos */
+
+    // Crear globos
+    function crearGlobo() {
+      const balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+      balloon.style.setProperty('--balloon-color', balloonColors[Math.floor(Math.random() * balloonColors.length)]); /* Color aleatorio */
+      balloon.style.left = Math.random() * 90 + "vw"; /* Posición horizontal aleatoria */
+      balloon.style.animationDelay = Math.random() * -10 + "s"; /* Para que aparezcan en diferentes momentos */
+      balloon.style.width = Math.random() * 30 + 70 + "px"; /* Tamaño aleatorio */
+      balloon.style.height = parseFloat(balloon.style.width) * 1.2 + "px"; /* Mantiene la proporción del globo */
+      document.body.appendChild(balloon);
+
+      setTimeout(() => {
+        balloon.remove();
+      }, 10000); /* Duración de la animación del globo */
+    }
+
+    setInterval(crearGlobo, 1500); /* Un globo cada 1.5 segundos */
+
   </script>
 
 </body>
